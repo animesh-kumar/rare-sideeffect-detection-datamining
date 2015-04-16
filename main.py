@@ -11,7 +11,7 @@ def connect_db():
 
 
 drugs_map = {}
-count_to_show = 1
+count_to_show = 3
 
 
 def map_drugs_and_family():
