@@ -10,7 +10,7 @@ def connect_db():
 
 
 drugs_map = {}
-
+count_to_show = 1
 
 def map_drugs_and_family():
     myfile = open("drugs", "r")
@@ -114,7 +114,7 @@ def top_sideeffects_per_drugstype():
                         author_list = get_authour_count_for_sideeffects(drugstype, each_sideeffects, each_drugstype_map)
                         author_count_for_sideeffects = len(author_list)
                         total_sideeffects_count_map[each_sideeffects] = author_count_for_sideeffects
-                        top_sideeffects_per_drugtype_author_list_map[drugstype][each_sideeffects] = author_list[0:min(10, len(author_list))]
+                        top_sideeffects_per_drugtype_author_list_map[drugstype][each_sideeffects] = author_list[0:min(count_to_show, len(author_list))]
 
             sorted_items = sorted(total_sideeffects_count_map.items(), key=operator.itemgetter(1))
             sorted_items.reverse()
@@ -140,7 +140,7 @@ def print_top_sideeffects_per_drugstype_map():
         for each_sideeffects in top_sideeffects_per_drugstype_map[each_drugstype]:
             print each_sideeffects[0], ' ',
             max_count += 1
-            if max_count >= 10:
+            if max_count >= count_to_show:
                 break
         print
     return
@@ -153,7 +153,7 @@ def print_top_author_list_per_drugstype_per_sideeffects():
             # if each_sideeffects in top_sideeffects_per_drugtype_author_list_map[each_drugstype]:
             print each_drugstype, ' ', each_sideeffects[0], ' = ', top_sideeffects_per_drugtype_author_list_map[each_drugstype][each_sideeffects[0]], ' '
             count += 1
-            if count >= 10:
+            if count >= count_to_show:
                 break
         print
 
@@ -164,10 +164,18 @@ import matplotlib.pyplot as plt
 def construct_graph():
     graph = []
     for each_drugstype in top_sideeffects_per_drugstype_map:
+        count1 = 0
         for each_sideeffects in top_sideeffects_per_drugstype_map[each_drugstype]:
-            graph.append((each_drugstype, each_sideeffects))
+            count2 = 0
+            graph.append((each_drugstype, each_sideeffects[0]))
             for each_author in top_sideeffects_per_drugtype_author_list_map[each_drugstype][each_sideeffects[0]]:
-                graph.append((each_sideeffects, each_author))
+                graph.append((each_sideeffects[0], each_author))
+                count2 += 1
+                if count2 >= count_to_show:
+                    break
+            count1 += 1
+            if count1 >= count_to_show:
+                break;
     return graph
 
 
