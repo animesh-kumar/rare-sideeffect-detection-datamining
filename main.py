@@ -3,6 +3,7 @@ import operator
 from mysqldb import MySQLDB
 from stopwords import stopwords_hashset
 
+
 def connect_db():
     db = MySQLDB()
     query = 'select * from temp'
@@ -11,6 +12,7 @@ def connect_db():
 
 drugs_map = {}
 count_to_show = 1
+
 
 def map_drugs_and_family():
     myfile = open("drugs", "r")
@@ -47,6 +49,7 @@ drugs_sideeffects_file = {'Author-Flagyl-SideEffects.tsv', 'Author-Ibuprofen-Sid
 total_drugstype_author_sideeffects_list = []       # total drugstype, author, sideeffects list
 top_sideeffects_per_drugstype_map = {}             # per drugtype which are the top side effects
 top_sideeffects_per_drugtype_author_list_map = {}  # per drug type per top side effects who are the authors
+
 
 def extract_drugstype_author_sideeffects():
     try:
