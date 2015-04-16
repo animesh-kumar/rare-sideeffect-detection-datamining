@@ -42,8 +42,8 @@ def draw_graph(graph, labels=None, graph_layout='shell',
     # show graph
     plt.show()
 
-graph = [(0, 1), (0, 2), (0, 3), (1, 10), (1, 11), (10, 2), (2, 13), (13, 3),
-         (3, 14), (3, 15)]
+graph = [('A', 'B'), ('A', 'C'), ('A', 'D'), ('B', 'X'), ('B', 'Y'), ('X', 'C'), ('C', 'Y'), ('Z', 'C'),
+         ('D', 'T'), ('D', 'R')]
 
 # you may name your edge labels
 labels = map(chr, range(65, 65+len(graph)))
