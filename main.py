@@ -288,10 +288,10 @@ class Search(Gtk.Window):
                     cnt = 0;
                     rank = 1
                     for side_effects in map:
-                        #side_effects_author_count_list.append(side_effects)
-                            if (rank <= 30):
+                            #side_effects_author_count_list.append(side_effects)
+                            if rank <= 30:
                                 side_effects_author_count_list.append((rank, side_effects[0], side_effects[1], str(expert_rank_map[drug_name][rank - 1])))
-                            else :
+                            else:
                                 side_effects_author_count_list.append((rank, side_effects[0], side_effects[1], "--"))
                             # cnt += 1
                             rank += 1

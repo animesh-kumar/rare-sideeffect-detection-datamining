@@ -23,9 +23,10 @@ class SearchDialog(Gtk.Dialog):
 
 
 class TextViewWindow(Gtk.Window):
+
     def __init__(self, side_effects_author_count_list, drug_name):
         Gtk.Window.__init__(self, title=drug_name)
-
+        self.side_effects_author_count_list = side_effects_author_count_list
         self.set_default_size(900, 550)
 
         self.grid = Gtk.Grid()
@@ -93,11 +94,27 @@ class TextViewWindow(Gtk.Window):
         button_search.connect("clicked", self.on_search_clicked)
         toolbar.insert(button_search, 0)
 
+        button_compare = Gtk.ToolButton.new_from_stock(Gtk.STOCK_JUSTIFY_LEFT)
+        button_compare.connect("clicked", self.on_compare_clicked)
+        toolbar.insert(button_compare, 1)
+
 
     def on_search_clicked(self, button_search):
         search = Search()
         search.draw_side_effects();
 
+    def on_compare_clicked(self, button_compare):
+        userRanks = [];
+        expertRanks = [];
+        sideeffects = [];
+        for i in range(0, 10, 1):
+            userRanks.append(self.side_effects_author_count_list[i][0]);
+            sideeffects.append(self.side_effects_author_count_list[i][1]);
+            expertRanks.append(int(self.side_effects_author_count_list[i][3]));
+        cp = ComparisonPlot()
+        cp.plot_graph(tuple(userRanks), tuple(expertRanks), tuple(sideeffects))
+
+from comparison_plot import ComparisonPlot
 from main import Search
 
 # win = TextViewWindow()
