@@ -33,7 +33,7 @@ class TextViewWindow(Gtk.Window):
         self.create_toolbar()
 
         #Creating the ListStore model
-        self.software_liststore = Gtk.ListStore(str, int)
+        self.software_liststore = Gtk.ListStore(int, str, int, str)
         for software_ref in side_effects_author_count_list:
             self.software_liststore.append(list(software_ref))
         self.current_filter_language = None
@@ -45,7 +45,7 @@ class TextViewWindow(Gtk.Window):
 
         #creating the treeview, making it use the filter as a model, and adding the columns
         self.treeview = Gtk.TreeView.new_with_model(self.language_filter)
-        for i, column_title in enumerate(["Side-Effects ", "No. of users reported"]):
+        for i, column_title in enumerate(["  Rank", "Top Side-Effects ", "No. of users reported", " Expert Rank"]):
             renderer = Gtk.CellRendererText()
             column = Gtk.TreeViewColumn(column_title, renderer, text=i)
             self.treeview.append_column(column)
@@ -75,7 +75,7 @@ class TextViewWindow(Gtk.Window):
         if self.current_filter_language is None or self.current_filter_language == "All":
             return True
         else:
-            return model[iter][0].upper().startswith(self.current_filter_language)
+            return model[iter][1].upper().startswith(self.current_filter_language)
 
     def on_selection_button_clicked(self, widget):
         """Called on any of the button clicks"""
