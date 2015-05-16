@@ -1,17 +1,20 @@
 import operator
 
-from mysqldb import MySQLDB
+#from mysqldb import MySQLDB
 from stopwords import stopwords_hashset
+from map_utility import window_name_list
+from map_utility import side_effects_author_count_list
+from search_by_drugname import SearchDialog, TextViewWindow
+from gi.repository import Gtk
 
-
-def connect_db():
-    db = MySQLDB()
-    query = 'select * from temp'
-    db.executequery(query)
+# def connect_db():
+#     db = MySQLDB()
+#     query = 'select * from temp'
+#     db.executequery(query)
 
 
 drugs_map = {}
-count_to_show = 1
+count_to_show = 5
 
 
 def map_drugs_and_family():
@@ -225,6 +228,30 @@ def draw_graph(labels=None, graph_layout='shell',
     # show graph
     plt.show()
 
+class Search(Gtk.Window):
+    def draw_side_effects(self, drug_name):
+        window_name_list.append(drug_name);
+        for each_drugstype in top_sideeffects_per_drugstype_map:
+            if drug_name == each_drugstype:
+                map = top_sideeffects_per_drugstype_map[drug_name]
+                cnt = 0;
+                for side_effects in map:
+                    side_effects_author_count_list.append(side_effects)
+                    #cnt += 1
+                    if cnt > count_to_show:
+                        break;
+        print top_sideeffects_per_drugstype_map
+        print side_effects_author_count_list;
+        win = SearchDialog(self)
+        response = win.run()
+        if response == Gtk.ResponseType.OK:
+            drug_name = win.entry.get_text()
+            win.destroy()
+            win = TextViewWindow(side_effects_author_count_list, drug_name)
+
+        win.connect("delete-event", Gtk.main_quit)
+        win.show_all()
+        Gtk.main()
 
 if __name__ == '__main__':
     # connect_db()
@@ -241,5 +268,7 @@ if __name__ == '__main__':
     print
     print_top_author_list_per_drugstype_per_sideeffects()
 
-    draw_graph()
+    #draw_graph()
+    search = Search()
+    search.draw_side_effects('xanax');
 
