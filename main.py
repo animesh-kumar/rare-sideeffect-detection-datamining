@@ -229,24 +229,39 @@ def draw_graph(labels=None, graph_layout='shell',
     plt.show()
 
 class Search(Gtk.Window):
-    def draw_side_effects(self, drug_name):
-        window_name_list.append(drug_name);
-        for each_drugstype in top_sideeffects_per_drugstype_map:
-            if drug_name == each_drugstype:
-                map = top_sideeffects_per_drugstype_map[drug_name]
-                cnt = 0;
-                for side_effects in map:
-                    side_effects_author_count_list.append(side_effects)
-                    #cnt += 1
-                    if cnt > count_to_show:
-                        break;
-        print top_sideeffects_per_drugstype_map
-        print side_effects_author_count_list;
+
+    def draw_side_effects(self):
         win = SearchDialog(self)
         response = win.run()
         if response == Gtk.ResponseType.OK:
+            map_drugs_and_family()
+            # print_drugs_map()
+
+            extract_drugstype_author_sideeffects()
+            # print_total_drugstype_author_sideeffects()
+            top_sideeffects_per_drugstype()
+            print_top_sideeffects_per_drugstype_map()
+            print_top_author_list_per_drugstype_per_sideeffects()
+            #Drug
             drug_name = win.entry.get_text()
+            print "drug name " + drug_name
             win.destroy()
+            # Add Drug Name to Window List
+            side_effects_author_count_list = []
+            # FInd the side effects
+            for each_drugstype in top_sideeffects_per_drugstype_map:
+                if drug_name == each_drugstype:
+                    map = top_sideeffects_per_drugstype_map[drug_name]
+                    cnt = 0;
+                    for side_effects in map:
+                        side_effects_author_count_list.append(side_effects)
+                        #cnt += 1
+                        if cnt > count_to_show:
+                            break;
+            print top_sideeffects_per_drugstype_map
+            print side_effects_author_count_list;
+            # open side effect window
+
             win = TextViewWindow(side_effects_author_count_list, drug_name)
 
         win.connect("delete-event", Gtk.main_quit)
@@ -256,19 +271,7 @@ class Search(Gtk.Window):
 if __name__ == '__main__':
     # connect_db()
 
-    map_drugs_and_family()
-    # print_drugs_map()
-
-    extract_drugstype_author_sideeffects()
-    # print_total_drugstype_author_sideeffects()
-
-
-    top_sideeffects_per_drugstype()
-    print_top_sideeffects_per_drugstype_map()
-    print
-    print_top_author_list_per_drugstype_per_sideeffects()
-
     #draw_graph()
     search = Search()
-    search.draw_side_effects('xanax');
+    search.draw_side_effects();
 

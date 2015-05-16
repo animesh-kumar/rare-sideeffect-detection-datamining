@@ -94,10 +94,11 @@ class TextViewWindow(Gtk.Window):
         toolbar.insert(button_search, 0)
 
 
-    def on_search_clicked(self):
-        print "haha"
+    def on_search_clicked(self, button_search):
+        search = Search()
+        search.draw_side_effects();
 
-
+from main import Search
 
 # win = TextViewWindow()
 # win.connect("delete-event", Gtk.main_quit)
